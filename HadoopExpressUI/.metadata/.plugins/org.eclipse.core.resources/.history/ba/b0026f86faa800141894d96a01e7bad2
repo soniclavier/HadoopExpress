@@ -1,0 +1,7 @@
+var toggle = function() {
+	var selected = document.getElementById("mlselect").value
+	$('#ml1').hide("fast")
+	$('#ml2').hide("fast")
+	var selected = "#"+selected;
+	$(selected).show("fast")
+}
