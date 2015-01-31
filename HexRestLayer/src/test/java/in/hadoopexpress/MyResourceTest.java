@@ -42,7 +42,13 @@ public class MyResourceTest {
      */
     @Test
     public void testGetIt() {
-        String responseMsg = target.path("myresource").request().get(String.class);
+        String responseMsg = target.path("myresource/getit").request().get(String.class);
         assertEquals("Got it!", responseMsg);
+    }
+    
+    @Test
+    public void testGetIt2() {
+        String responseMsg = target.path("myresource/getit2").request().get(String.class);
+        assertEquals("Got it2!", responseMsg);
     }
 }

@@ -1,4 +1,2 @@
-GitRepositoriesView.GitDirectories=/home/vishnu/hadoop_ventures/.git\:
-TerminalPrefInvertColors=true
+GitRepositoriesView.GitDirectories=/home/vishnu/HadoopExpress/.git\:/home/vishnu/hadoop_ventures/.git\:
 eclipse.preferences.version=1
-overriddenByCSS=,TerminalPrefInvertColors,
