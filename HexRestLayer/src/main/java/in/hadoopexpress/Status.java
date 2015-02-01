@@ -8,8 +8,8 @@ import javax.ws.rs.core.MediaType;
 /**
  * Root resource (exposed at "myresource" path)
  */
-@Path("myresource")
-public class MyResource {
+@Path("status")
+public class Status {
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -19,15 +19,15 @@ public class MyResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("getit1")
+    @Path("namenode")
     public String getIt() {
-        return "Got it!";
+        return "{nodetype:\"namenode\", status:\"yellow\"}";
     }
     
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("getit2")
+    @Path("datanode")
     public String getIt2() {
-        return "Got it2!";
+    	return "{nodetype:\"datanode\", status:\"green\"}";
     }
 }
