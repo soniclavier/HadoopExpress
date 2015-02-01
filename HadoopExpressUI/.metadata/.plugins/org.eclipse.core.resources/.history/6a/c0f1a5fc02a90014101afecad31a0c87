@@ -1,5 +1,0 @@
-package in.hadoopexpress.rest.hdfs;
-
-public class Status {
-
-}
