@@ -179,14 +179,21 @@
     var dash = {};
     dash.Status = Backbone.Model.extend({
     	idAttribute: "nodetype",
-    	urlRoot: 'http://localhost:8099/myapp/status/',
+    	urlRoot: 'http://localhost:8099/myapp/status',
         defaults: {	
-          nodetype: null,
+          nodetype: "",
           status: 'green'          
         }
       });
+   //dash.nsTemp = new dash.Status({nodetype:"namenode"});
+    dash.nsTemp = new dash.Status({nodetype:"namenode"});
+    dash.nsTemp.fetch({
+        success: function (response) {
+            console.log("Got response ok: " + response.get("status"));
+        }
+    });
     
-    dash.nsTemp = new dash.Status({nodetype:"namenode"}).fetch();
+    
     dash.NamenodeStatus = Backbone.View.extend({
     	el : '#namenode-status',
     	initialize : function(){
