@@ -1,6 +1,6 @@
 # HadoopExpress
 
-ML Server dev setup stpes :
+ML Server dev setup steps :
 
 a) checkout
   1. cd to any base folder 
