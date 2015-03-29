@@ -21,6 +21,7 @@ c) starting the server
 
 d) committing a change
   1. add any IDE file to be ignored into .gitignore file
+  2. git status  ( to see if any unnecessary file is included)
   2. git pull origin master
   3. git add .
   4. git commit 
