@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>HEMLUI</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>NBResult</display-name>
+    <servlet-name>NBResult</servlet-name>
+    <servlet-class>com.hex.ml.NBResult</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NBResult</servlet-name>
+    <url-pattern>/NBResult</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SGDResult</display-name>
+    <servlet-name>SGDResult</servlet-name>
+    <servlet-class>com.hex.ml.SGDResult</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SGDResult</servlet-name>
+    <url-pattern>/SGDResult</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>KResult</display-name>
+    <servlet-name>KResult</servlet-name>
+    <servlet-class>com.hex.ml.KResult</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>KResult</servlet-name>
+    <url-pattern>/KResult</url-pattern>
+  </servlet-mapping>
+</web-app>

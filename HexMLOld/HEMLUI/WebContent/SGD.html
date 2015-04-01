@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>HEX-ML:SGD</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="css/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+     <!-- Custom CSS -->
+    <link href="css/custom.css" rel="stylesheet">
+    
+    
+
+
+    
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div class="navbar-default sidebar" role="navigation" id="sidebar-wrapper">
+            <ul class="nav in" id="side-menu">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        HEX-ML
+                    </a>
+                </li>
+                   <li>
+                    <a href="#">Overview</a>
+                </li>
+
+                 <li>
+                            <a href="#"> HEX-Modeler<span class="fa fa-angle-left"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a href="NaiveBayes.html">Naive Bayes</a>
+                                </li>
+                                <li>
+                                    <a href="SGD.html">Logistic Regression</a>
+                                </li>
+                                <li>
+                                    <a href="RandomForest.html">Random Forest</a>
+                                </li>
+                                <li>
+                                    <a href="HiddenMarkovModels.html">Hidden Markov Models</a>
+                                </li>
+                                <li>
+                                    <a href="MultilayerPerceptron.html"> Multilayer Perceptron</a>
+                                </li>
+                                <li>
+                                    <a href="Linearsupportvectormachines.html">Linear support vector machines (SVM)</a>
+                                </li>
+                                 <li>
+                                    <a href="KMeans.html">K-Means</a>
+                                </li>
+                                 <li>
+                                    <a href="FuzzykMeans.html">Fuzzy k-Means</a>
+                                </li>
+                                 <li>
+                                    <a href="StreamingkMeans.html">Streaming k-Means</a>
+                                </li>
+                                 <li>
+                                    <a href="SpectralClustering.html">Spectral Clustering</a>
+                                </li>
+                                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>      
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>HEX-ML Logistic Regression (SGD)</h1>
+                        <p> Logistic regression is a model used for prediction of the probability of occurrence of an event. 
+                            It makes use of several predictor variables that may be either numerical or categories.The Mahout implementation uses 
+                            Stochastic Gradient Descent (SGD) to all large training sets to be used. SGD is an inherently sequential algorithm.</p>
+                            <p></p>
+                        <p>To use this Algorithm provide the path of your input data-set (with headers) from local file system and provide your target class name and type of
+                        the variables numeric or categorical. </p>  
+                                          
+                    </div>
+                  <div class="col-lg-5">
+                   <p></p>
+                   <p></p>  
+                   <p></p>
+                   <p></p> 
+                     <form role="form"  method="get" action='SGDResult'>
+                     <div class="form-group">
+	                 <!-- <label>Data set location in local file system</label>
+	                  <input class="form-control">
+	                  <p></p>
+	                   <label>Target class name</label>
+	                  <input class="form-control">
+	                  <p></p>
+	                  <label>Type of variable (Numeric or Categories)</label>
+	                  <input class="form-control">-->
+	                  
+	                   <div class="control-group">
+						<label class="control-label">Data set location in local file system</label>
+						<div class="controls">
+							<input type="text" name="dataset" id="dataset" title="dataset" value="">
+						</div>
+					</div>
+					<p></p>
+					
+					  <div class="control-group">
+						<label class="control-label">Target class name</label>
+						<div class="controls">
+							<input type="text" name="targetclass" id="targetclass" title="targetclass" value="">
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">Type of variable (Numeric or Categories)</label>
+						<div class="controls">
+							<input type="text" name="varType" id="varType" title="varType" value="">
+						</div>
+					</div>
+	                  
+	              </div>
+	               <p></p>
+	              <div class="form-actions">
+						<button type="submit" class="btn btn-default">Generate SGD-Model</button>
+				 </div>	
+	            </form>
+	           	           	
+	         </div>
+                </div>
+            </div>
+         
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <!-- <script src="js/jquery.js"></script> -->
+
+     <!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+         <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/metisMenu.min.js"></script>
+
+	
+    <!-- Custom Theme JavaScript -->
+    <script src="js/sb-admin-2.js"></script>
+    
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+    
+
+    
+
+    
+
+</body>
+
+</html>

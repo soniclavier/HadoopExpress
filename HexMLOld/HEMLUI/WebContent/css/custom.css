@@ -1,0 +1,26 @@
+@CHARSET "ISO-8859-1";
+
+@media(min-width:768px) {
+    .sidebar {
+        margin-top: 0px;
+    }
+    
+.sidebar ul li {
+    border-bottom: 0px;
+}
+
+li a {
+	color: rgb(153,153,153);
+}
+
+li a:hover{
+	color:#fff;
+}
+
+.nav li a:focus {
+	background-color: #2C3E50; 
+}
+.nav li a:hover {
+	background-color: #2C3E50;
+}
+
