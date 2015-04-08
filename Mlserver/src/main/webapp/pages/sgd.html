@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>HEX-ML:SGD</title>
+
+<!-- Bootstrap -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/jasny-bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="/css/navmenu-reveal.css" rel="stylesheet">
+<link href="/css/menu-customize.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="navmenu navmenu-grey navmenu-fixed-left">
+		<a class="navmenu-brand" href="/pages/home.html">HexML</a>
+		<ul class="nav navmenu-nav">
+			<li><a href="/pages/home.html">Home</a></li>
+			<li><a href="#">Overview</a></li>
+			<li class="dropdown"><a href="#" class="dropdown-toggle"
+				data-toggle="dropdown">HEX-Modeler<b class="caret"></b></a>
+				<ul class="dropdown-menu navmenu-nav">
+					<li><a href="#">Naive Bayes</a></li>
+					<li><a href="/pages/sgd.html">Logistic Regression</a></li>
+					<li><a href="#">Something else here</a></li>
+				</ul></li>
+		</ul>
+	</div>
+	<div class="canvas">
+		<div class="navbar navbar-default navbar-fixed-top">
+			<button type="button" class="navbar-toggle" data-toggle="offcanvas"
+				data-recalc="false" data-target=".navmenu" data-canvas=".canvas">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+		</div>
+
+		<div class="container">
+			<div class="page-header">
+				<h1>HEX-ML Logistic Regression (SGD)</h1>
+			</div>
+			<p>Logistic regression is a model used for prediction of the
+				probability of occurrence of an event. It makes use of several
+				predictor variables that may be either numerical or categories.The
+				Mahout implementation uses Stochastic Gradient Descent (SGD) to all
+				large training sets to be used. SGD is an inherently sequential
+				algorithm.</p>
+			<br />
+			<p>To use this Algorithm provide the path of your input data-set
+				(with headers) from local file system and provide your target class
+				name and type of the variables numeric or categorical.</p>
+			<br />
+			<div class="box-with-border">
+				<form>
+					<div class="form-group">
+						<div class="row">
+							<label for="dataset">Choose input file</label>
+						</div>
+						<div class="row">
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="dataset"
+									placeholder="Data set location in local file system.">
+							</div>
+							<!-- 
+							<div class="col-lg-4">								
+								<span class="btn btn-default btn-file">
+								<span class="glyphicon glyphicon-folder-open"></span>
+									Browse <input type="file" onchange="fillFilePath(this,'dataset');">
+							</div>
+							 -->
+						</div>
+						</span>
+						<!-- <p class="help-block">Data set location in local file system.</p> -->
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label for="targetClass">Target class name</label>
+						</div>
+						<div class="row">
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="targetClass"
+									placeholder="Target class">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label for="varType">Type of variable</label>
+						</div>
+						<div class="row">
+							<div class="col-lg-8">
+								<select class="form-control" id="varType">
+									<option value="Numerical">Numerical</option>
+									<option value="Categorical">Categorical</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<button type="submit" class="btn btn-default">Generate
+							SGD-Model</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- /.container -->
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jasny-bootstrap.min.js"></script>
+	<script>
+	function fillFilePath(file, field) {
+	    var temp = file.value.split('\\');
+	    document.getElementById(field).value = temp[temp.length - 1];
+	}
+	</script>
+</body>
+</html>

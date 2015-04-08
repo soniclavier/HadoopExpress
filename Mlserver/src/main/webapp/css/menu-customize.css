@@ -1,0 +1,126 @@
+.navmenu-grey, .navbar-inverse .navbar-offcanvas {
+	background-color: #22313F;
+	border-color: #ECECEC;
+}
+
+.navmenu-grey .navmenu-brand, .navbar-inverse .navbar-offcanvas .navmenu-brand
+	{
+	color: #ECECEC;
+}
+
+.navmenu-grey .navmenu-brand:hover, .navbar-inverse .navbar-offcanvas .navmenu-brand:hover,
+	.navmenu-grey .navmenu-brand:focus, .navbar-inverse .navbar-offcanvas .navmenu-brand:focus
+	{
+	color: #fff;
+	background-color: transparent
+}
+
+.navmenu-grey .navmenu-text, .navbar-inverse .navbar-offcanvas .navmenu-text
+	{
+	color: #ECECEC;
+}
+
+.navmenu-grey .navmenu-nav>.dropdown>a:hover .caret, .navbar-inverse .navbar-offcanvas .navmenu-nav>.dropdown>a:hover .caret,
+	.navmenu-grey .navmenu-nav>.dropdown>a:focus .caret, .navbar-inverse .navbar-offcanvas .navmenu-nav>.dropdown>a:focus .caret
+	{
+	border-top-color: #fff;
+	border-bottom-color: #fff
+}
+
+.navmenu-grey .navmenu-nav>.open>a, .navbar-inverse .navbar-offcanvas .navmenu-nav>.open>a,
+	.navmenu-grey .navmenu-nav>.open>a:hover, .navbar-inverse .navbar-offcanvas .navmenu-nav>.open>a:hover,
+	.navmenu-grey .navmenu-nav>.open>a:focus, .navbar-inverse .navbar-offcanvas .navmenu-nav>.open>a:focus
+	{
+	background-color: #22313F; /* dropdown submenu */
+	color: #fff
+}
+
+.navmenu-grey .navmenu-nav>.open>a .caret, .navbar-inverse .navbar-offcanvas .navmenu-nav>.open>a .caret,
+	.navmenu-grey .navmenu-nav>.open>a:hover .caret, .navbar-inverse .navbar-offcanvas .navmenu-nav>.open>a:hover .caret,
+	.navmenu-grey .navmenu-nav>.open>a:focus .caret, .navbar-inverse .navbar-offcanvas .navmenu-nav>.open>a:focus .caret
+	{
+	border-top-color: #fff;
+	border-bottom-color: #fff
+}
+
+.navmenu-grey .navmenu-nav>.dropdown>a .caret, .navbar-inverse .navbar-offcanvas .navmenu-nav>.dropdown>a .caret
+	{
+	border-top-color: #999;
+	border-bottom-color: #999
+}
+
+.navmenu-grey .navmenu-nav.dropdown-menu, .navbar-inverse .navbar-offcanvas .navmenu-nav.dropdown-menu
+	{
+	background-color: #22313F; /* dropdown submenu */
+}
+
+.navmenu-grey .navmenu-nav.dropdown-menu>.divider, .navbar-inverse .navbar-offcanvas .navmenu-nav.dropdown-menu>.divider
+	{
+	background-color: #222
+}
+
+.navmenu-grey .navmenu-nav.dropdown-menu>.active>a, .navbar-inverse .navbar-offcanvas .navmenu-nav.dropdown-menu>.active>a,
+	.navmenu-grey .navmenu-nav.dropdown-menu>.active>a:hover,
+	.navbar-inverse .navbar-offcanvas .navmenu-nav.dropdown-menu>.active>a:hover,
+	.navmenu-grey .navmenu-nav.dropdown-menu>.active>a:focus,
+	.navbar-inverse .navbar-offcanvas .navmenu-nav.dropdown-menu>.active>a:focus
+	{
+	background-color: #000
+}
+
+.navmenu-grey .navmenu-nav>li>a, .navbar-inverse .navbar-offcanvas .navmenu-nav>li>a
+	{
+	color: #999
+}
+
+.navmenu-grey .navmenu-nav>li>a:hover, .navbar-inverse .navbar-offcanvas .navmenu-nav>li>a:hover,
+	.navmenu-grey .navmenu-nav>li>a:focus, .navbar-inverse .navbar-offcanvas .navmenu-nav>li>a:focus
+	{
+	color: #fff;
+	background-color: transparent
+}
+
+.navmenu-grey .navmenu-nav>.active>a, .navbar-inverse .navbar-offcanvas .navmenu-nav>.active>a,
+	.navmenu-grey .navmenu-nav>.active>a:hover, .navbar-inverse .navbar-offcanvas .navmenu-nav>.active>a:hover,
+	.navmenu-grey .navmenu-nav>.active>a:focus, .navbar-inverse .navbar-offcanvas .navmenu-nav>.active>a:focus
+	{
+	color: #fff;
+	background-color: #22313F; /* dropdown submenu */
+}
+
+.navmenu-grey .navmenu-nav>.disabled>a, .navbar-inverse .navbar-offcanvas .navmenu-nav>.disabled>a,
+	.navmenu-grey .navmenu-nav>.disabled>a:hover, .navbar-inverse .navbar-offcanvas .navmenu-nav>.disabled>a:hover,
+	.navmenu-grey .navmenu-nav>.disabled>a:focus, .navbar-inverse .navbar-offcanvas .navmenu-nav>.disabled>a:focus
+	{
+	color: #444;
+	background-color: transparent
+}
+
+/* toggle button customize */
+.navbar-default .navbar-toggle, .navbar-default .navbar-toggle:focus {
+	background-color: #22313F;
+	border: 1px solid #ecf0f1;
+}
+
+.navbar-default .navbar-toggle:hover {
+	background-color: #D2D7D3;
+	border: 1px solid #ecf0f1;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #fff;
+}
+
+/* add border to the form*/
+.box-with-border {
+	padding: 40px;
+	border-color: #ddd;
+	border-style:solid;
+	border-width: 1px;
+	border-radius: 4px 4px 0 0;
+}
+
+/* wider input type*/
+.wider {
+	width : 200px;
+}
