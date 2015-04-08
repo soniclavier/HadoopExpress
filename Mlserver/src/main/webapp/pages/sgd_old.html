@@ -11,36 +11,49 @@
 
 <title>HEX-ML:SGD</title>
 
-<!-- Bootstrap Core CSS -->
-<link href="../css/bootstrap.min.css" rel="stylesheet">
-<!-- MetisMenu CSS -->
+<link href="../css/bootstrap.min-3.3.2.css" rel="stylesheet">
 <link href="../css/metisMenu.min.css" rel="stylesheet">
-<!-- Custom CSS -->
 <link href="../css/sb-admin-2.css" rel="stylesheet">
-<!-- Custom CSS -->
 <link href="../css/simple-sidebar.css" rel="stylesheet">
-
 <link href="../css/font-awesome.min.css" rel="stylesheet">
 <!-- Custom CSS -->
-<link href="../css/custom.css" rel="stylesheet">
+<!-- <link href="../css/custom.css" rel="stylesheet"> -->
 
 
 
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/metisMenu.min.js"></script>
+<script src="../js/sb-admin-2.js"></script>
 
+<script>
+	$("#menu-toggle").click(function(e) {
+		e.preventDefault();
+		$("#wrapper").toggleClass("toggled");
+	});
 
-
-
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	$("#generate-sgd").click(function(e) {
+		var path = $("dataset").val();
+		alert(path)
+		$.get('/SGDResult', {
+			"dataset" : "dummy"
+		}, function(resp) {
+			alert('success')
+		}).fail(function() {
+			alert('failed')
+		})
+	});
+</script>
 
 </head>
 
 <body>
 
+	<div class="container">
+		<a class="file-input-wrapper btn btn-default  btn-primary"><span>Search
+				for a file to add</span><input type="file" title="Search for a file to add"
+			class="btn-primary" style="left: -153px; top: 12px;"></a>
+	</div>
 	<div id="wrapper">
 
 		<!-- Sidebar -->
@@ -49,7 +62,6 @@
 			<ul class="nav in" id="side-menu">
 				<li class="sidebar-brand"><a href="#"> HEX-ML </a></li>
 				<li><a href="#">Overview</a></li>
-
 				<li><a href="#"> HEX-Modeler<span class="fa fa-angle-left"></span></a>
 					<ul class="nav nav-second-level collapse">
 						<li><a href="NaiveBayes.html">Naive Bayes</a></li>
@@ -74,6 +86,7 @@
 		<!-- /#sidebar-wrapper -->
 
 		<!-- Page Content -->
+
 		<div id="page-content-wrapper">
 			<div class="container-fluid">
 				<div class="row">
@@ -93,34 +106,23 @@
 
 					</div>
 					<div class="col-lg-5">
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-						<!--  <form role="form"  method="get" action='/SGDResult'> -->
+						<br />
 						<div class="form-group">
-							<!-- <label>Data set location in local file system</label>
-	                  <input class="form-control">
-	                  <p></p>
-	                   <label>Target class name</label>
-	                  <input class="form-control">
-	                  <p></p>
-	                  <label>Type of variable (Numeric or Categories)</label>
-	                  <input class="form-control">-->
-
 							<div class="control-group">
 								<label class="control-label">Data set location in local
 									file system</label>
 								<div class="controls">
 									<div class="row">
 										<div class="col-md-6">
-											<input type="file" class="filestyle" id="dataset"
-												name="dataset" data-buttonText="Browse">
+											<a class="file-input-wrapper btn btn-default "> <span>Browse</span>
+												<input type="file" data-filename-placement="inside"
+												style="left: -181px; top: 10px;" id="dataset">
+											</a>
 										</div>
 									</div>
 								</div>
 							</div>
-							<p></p>
+							<br />
 
 							<div class="control-group">
 								<label class="control-label">Target class name</label>
@@ -138,14 +140,12 @@
 										value="">
 								</div>
 							</div>
-
 						</div>
-						<p></p>
+						<br />
 						<div class="form-actions">
 							<button type="submit" class="btn btn-default" id="generate-sgd">Generate
 								SGD-Model</button>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -155,46 +155,6 @@
 
 	</div>
 	<!-- /#wrapper -->
-
-	<!-- jQuery -->
-	<!-- <script src="js/jquery.js"></script> -->
-
-	<!-- jQuery -->
-	<script src="../js/jquery.min.js"></script>
-	<!-- Bootstrap Core JavaScript -->
-	<script src="../js/bootstrap.min.js"></script>
-	<!-- Metis Menu Plugin JavaScript -->
-	<script src="../js/metisMenu.min.js"></script>
-
-	<script src="../js/bootstrap-filestyle.min.js"></script>
-	<!-- Custom Theme JavaScript -->
-	<script src="../js/sb-admin-2.js"></script>
-
-	<!-- Menu Toggle Script -->
-	<script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-    
-    $("#generate-sgd").click(function(e) {
-    	var path = $("dataset").val();
-    	alert(path)
-    	$.get('/SGDResult',
-    			{"dataset":"dummy"},
-    			function(resp) {
-    				alert('success')
-    			}).fail(function() {
-    		alert('failed')
-    	})
-    });
-    
-    </script>
-
-
-
-
-
 
 </body>
 

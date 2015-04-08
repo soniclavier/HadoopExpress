@@ -53,6 +53,7 @@
 			<version>2.3.3</version>
 		</dependency>
 
+		<!-- Mahout support -->
 		<dependency>
 			<groupId>org.apache.mahout</groupId>
 			<artifactId>mahout-core</artifactId>
@@ -83,6 +84,13 @@
 			<artifactId>servlet-api</artifactId>
 			<version>3.0-alpha-1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet-core</artifactId>
+			<version>2.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
