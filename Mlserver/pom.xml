@@ -8,6 +8,7 @@
 	<properties>
 		<jettyVersion>9.2.10.v20150310</jettyVersion>
 		<mahoutVersion>0.9</mahoutVersion>
+		<jerseyVersion>2.17</jerseyVersion>
 	</properties>
 
 	<repositories>
@@ -38,7 +39,11 @@
 			<artifactId>jetty-annotations</artifactId>
 			<version>${jettyVersion}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+			<version>${jettyVersion}</version>
+		</dependency>
 
 		<!-- With JSP support -->
 		<dependency>
@@ -47,11 +52,7 @@
 			<version>${jettyVersion}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.eclipse.jetty.toolchain</groupId>
-			<artifactId>jetty-jsp-jdt</artifactId>
-			<version>2.3.3</version>
-		</dependency>
+
 
 		<!-- Mahout support -->
 		<dependency>
@@ -90,6 +91,14 @@
 			<artifactId>jersey-container-servlet-core</artifactId>
 			<version>2.0</version>
 		</dependency>
+		<!-- Exclusions -->
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>5.0.1</version>
+			<scope>exclusion</scope>
+		</dependency>
+
 
 	</dependencies>
 
