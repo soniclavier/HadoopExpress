@@ -107,7 +107,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<button type="submit" class="btn btn-default">Generate
+						<button type="submit" id="submit" class="btn btn-default">Generate
 							SGD-Model</button>
 					</div>
 				</form>
@@ -124,6 +124,20 @@
 	    var temp = file.value.split('\\');
 	    document.getElementById(field).value = temp[temp.length - 1];
 	}
+	
+	$('#submit').click(function(){ 
+        alert('submit');
+         $.ajax({ 
+             type: "GET",
+             dataType: "text",
+             url: "/rest/sgd/generateModel",
+             success: function(data){        
+                alert(data);
+             },error: function(e){  
+                 alert('error: ' + e);  
+             } 
+         });
+    });
 	</script>
 </body>
 </html>

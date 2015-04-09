@@ -2,14 +2,12 @@ package com.hex.ml.main;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.glassfish.jersey.servlet.ServletContainer;
-
-import com.hex.ml.logistic.SgdService;
 
 public class Main {
 
@@ -39,17 +37,12 @@ public class Main {
 				ServletContextHandler.SESSIONS);
 		restContext.setContextPath("/rest");
 		ServletHolder jerseyServlet = new ServletHolder(new ServletContainer());
-		//ServletHolder jerseyServlet = restContext.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
 		jerseyServlet.setInitOrder(0);
-		jerseyServlet.setInitParameter(
-				"jersey.config.server.provider.classnames",
-				SgdService.class.getCanonicalName());
-		restContext.addServlet(jerseyServlet, "/rest");
-		HandlerCollection handlers = new HandlerCollection();
-		Handler[] handlerArr = new Handler[2];
-		handlerArr[0] = webAppContext;
-		handlerArr[1] = restContext;
-		handlers.setHandlers(handlerArr);
+		jerseyServlet.setInitParameter("jersey.config.server.provider.packages","com.hex.ml.logistic");
+		restContext.addServlet(jerseyServlet, "/*");
+
+		HandlerList handlers = new HandlerList();
+		handlers.setHandlers(new Handler[]{restContext,webAppContext});
 
 		server.setHandler(handlers);
 		server.start();

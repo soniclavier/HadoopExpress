@@ -3,15 +3,18 @@ package com.hex.ml.logistic;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-
 @Path("/sgd")
-public class SgdService{
+public class SgdService {
 	@GET
-	@Path("generate-model")
+	@Path("generateModel")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String generateModel() {
-		return "Success";
+	public String generateModel(@QueryParam("inputLoc") String inputLoc,
+			@QueryParam("targetVar") String targetVariable,
+			@QueryParam("varType") String varType) {
+		return "Received " + inputLoc + " , " + targetVariable + " , "
+				+ varType;
 	}
 }
