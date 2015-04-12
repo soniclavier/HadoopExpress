@@ -125,17 +125,28 @@
 	    document.getElementById(field).value = temp[temp.length - 1];
 	}
 	
-	$('#submit').click(function(){ 
-        alert('submit');
+	$('#submit').click(function(e){
+		e.preventDefault();
+		var inputLoc = $('#dataset').val();
          $.ajax({ 
              type: "GET",
-             dataType: "text",
+             contentType: "application/json",
+             data: {
+            	 'inputLoc' :inputLoc
+             },
+             async:true,
              url: "/rest/sgd/generateModel",
-             success: function(data){        
-                alert(data);
-             },error: function(e){  
-                 alert('error: ' + e);  
-             } 
+             success:function(data, textStatus, jqXHR) {
+            	alert("success");
+            	alert(data)
+            	alert(success)
+             },
+             error: function (xhr, ajaxOptions, thrownError) {
+            	 alert("error");
+                 alert(xhr.status);
+                 alert(thrownError);
+                 alert(xhr.responseText);
+               }	
          });
     });
 	</script>

@@ -18,6 +18,8 @@ import org.apache.mahout.classifier.sgd.LogisticModelParameters;
 import org.apache.mahout.classifier.sgd.OnlineLogisticRegression;
 
 
+import org.codehaus.jettison.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintWriter;
@@ -42,7 +44,7 @@ public final class RunLogistic {
    mainToOutput(args, new PrintWriter(System.out, true));
  }
 
- static String mainToOutput(String[] args, PrintWriter output) throws Exception {
+ static JSONObject mainToOutput(String[] args, PrintWriter output) throws Exception {
    if (parseArgs(args)) {
      if (!showAuc && !showConfusion && !showScores) {
        showAuc = true;
@@ -136,7 +138,7 @@ public final class RunLogistic {
    retrunString.append(getNormalizedStats().getStandardDeviation());
    retrunString.append(" Average ");
    retrunString.append(getNormalizedStats().getAverage());
-   return retrunString.toString();
+   return new JSONObject();
  }
  
 
