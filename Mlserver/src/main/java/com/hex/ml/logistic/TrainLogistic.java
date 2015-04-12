@@ -50,7 +50,11 @@ public final class TrainLogistic {
   public static void main(String[] args) throws Exception {
     mainToOutput(args, new PrintWriter(new OutputStreamWriter(System.out, Charsets.UTF_8), true));
   }
-
+  
+ 
+  public static void generateModel() {
+	  
+  }
   static void mainToOutput(String[] args, PrintWriter output) throws Exception {
     if (parseArgs(args)) {
       double logPEstimate = 0;

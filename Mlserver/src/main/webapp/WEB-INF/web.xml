@@ -6,14 +6,4 @@
 	<welcome-file-list>
 		<welcome-file>pages/home.html</welcome-file>
 	</welcome-file-list>
-	<servlet>
-		<description></description>
-		<display-name>SGDResult</display-name>
-		<servlet-name>SGDResult</servlet-name>
-		<servlet-class>com.hex.ml.logistic.SGDResult</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SGDResult</servlet-name>
-		<url-pattern>/SGDResult</url-pattern>
-	</servlet-mapping>
 </web-app>

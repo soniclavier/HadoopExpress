@@ -8,7 +8,9 @@
 <title>HEX-ML:SGD</title>
 
 <!-- Bootstrap -->
-<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<!--  <link href="/css/bootstrap.min.css" rel="stylesheet"> -->
 <link href="/css/jasny-bootstrap.min.css" rel="stylesheet"
 	media="screen">
 <link href="/css/navmenu-reveal.css" rel="stylesheet">
@@ -59,7 +61,6 @@
 			<p>To use this Algorithm provide the path of your input data-set
 				(with headers) from local file system and provide your target class
 				name and type of the variables numeric or categorical.</p>
-			<br />
 			<div class="box-with-border">
 				<form>
 					<div class="form-group">
@@ -84,6 +85,17 @@
 					</div>
 					<div class="form-group">
 						<div class="row">
+							<label for="headers">Header information</label>
+						</div>
+						<div class="row">
+							<div class="col-lg-8">
+								<input type="text" class="form-control" id="header"
+									placeholder="Comma separated header of input file">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
 							<label for="targetClass">Target class name</label>
 						</div>
 						<div class="row">
@@ -100,8 +112,8 @@
 						<div class="row">
 							<div class="col-lg-8">
 								<select class="form-control" id="varType">
-									<option value="Numerical">Numerical</option>
-									<option value="Categorical">Categorical</option>
+									<option value="numeric">Numerical</option>
+									<option value="categorical">Categorical</option>
 								</select>
 							</div>
 						</div>
@@ -111,44 +123,114 @@
 							SGD-Model</button>
 					</div>
 				</form>
+
 			</div>
+
+
+			<div class="alert alert-success" role="alert" id="success"
+				hidden="true">Model generated successfully</div>
+			<div class="progress" hidden="true" id="progress">
+				<div class="progress-bar progress-bar-striped active"
+					role="progressbar" aria-valuenow="100" aria-valuemin="0"
+					aria-valuemax="100" style="width: 100%">please wait</div>
+			</div>
+			<br/>						
+			
+			<div class="box-without-border no-padding" id="result" hidden="true">
+				<span class="label label-info">Stats</span>
+				<div class="well" id="resultStats"></div>
+				<span class="label label-info">Confusion matrix</span>
+				<table class="table table-hover table-bordered" id="confusionTable">
+				</table>
+			</div>
+			
+
 		</div>
 		<!-- /.container -->
 	</div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<!-- <script src="/js/bootstrap.min.js"></script>  -->
 	<script src="/js/jasny-bootstrap.min.js"></script>
 	<script>
-	function fillFilePath(file, field) {
-	    var temp = file.value.split('\\');
-	    document.getElementById(field).value = temp[temp.length - 1];
-	}
-	
-	$('#submit').click(function(e){
-		e.preventDefault();
-		var inputLoc = $('#dataset').val();
-         $.ajax({ 
-             type: "GET",
-             contentType: "application/json",
-             data: {
-            	 'inputLoc' :inputLoc
-             },
-             async:true,
-             url: "/rest/sgd/generateModel",
-             success:function(data, textStatus, jqXHR) {
-            	alert("success");
-            	alert(data)
-            	alert(success)
-             },
-             error: function (xhr, ajaxOptions, thrownError) {
-            	 alert("error");
-                 alert(xhr.status);
-                 alert(thrownError);
-                 alert(xhr.responseText);
-               }	
-         });
-    });
+		function fillFilePath(file, field) {
+			var temp = file.value.split('\\');
+			document.getElementById(field).value = temp[temp.length - 1];
+		}
+
+		function preGenerate() {
+			$('#progress').show();
+			$('#success').hide();
+			$("#result").hide();
+			$("#resultStats").hide();
+			
+		}
+
+		$('#submit')
+				.click(
+						function(e) {
+							e.preventDefault();
+							var inputLoc = $('#dataset').val();
+							var header = $('#header').val();
+							var targetClass = $('#targetClass').val();
+							var varType = $('#varType').val();
+							$
+									.ajax({
+										type : "GET",
+										contentType : "application/json",
+										data : {
+											'inputLoc' : inputLoc,
+											'targetClass' : targetClass,
+											'varType' : varType,
+											'header' : header
+										},
+										async : true,
+										url : "/rest/sgd/generateModel",
+										beforeSend : preGenerate,
+										success : function(data, textStatus,
+												jqXHR) {											
+											$('#progress').hide();
+											$('#success').slideDown();
+											$("#result").show();
+											$("#resultStats").show();
+											//show success message
+											var resultStats = 'Kappa : '+data.success[0].Kappa[0]+"<br/>Standard Deviation : "+ data.success[0].StandardDeviation[0] + "<br/>Average : " +data.success[0].Average[0];
+											$("#resultStats").html(resultStats);
+											//Buid the confusion matrix
+											var head = data.success[0].Categories[0]
+													.split(",");
+											var thead = '<thead><tr><th></th>'
+											for (i = 0; i < head.length; i++) {
+												thead += '<th>' + head[i]
+														+ '</th>'
+											}
+											thead += '</tr></thead>'
+											var tbody = '<tbody>'
+											for (i = 0; i < head.length; i++) {
+												tbody += '<tr><td style="font-weight: bold;">'
+														+ head[i] + '</td>'
+												for (j = 0; j < head.length; j++) {
+													tbody += '<td>'
+															+ data.success[0].ConfusionMat[0][i][j]
+															+ '</td>'
+												}
+												tbody += '</tr>'
+											}
+											tbody += '</tbody>'
+											$("#confusionTable").html(
+													thead + tbody);
+
+										},
+										error : function(xhr, ajaxOptions,
+												thrownError) {
+											alert(xhr.status);
+											alert(thrownError);
+											alert(xhr.responseText);
+										}
+									});
+						});
 	</script>
 </body>
 </html>
