@@ -14,6 +14,7 @@ import java.util.Random;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -52,6 +53,31 @@ public class SGDMLP {
 			}
 			JSONObject success = new JSONObject();
 			success.append("success", sgdResult);
+			
+			//dummy code ..................
+			JSONArray features = new JSONArray();
+			
+			
+			JSONObject dummy = new JSONObject();
+			dummy.append("name","sepal_color");
+			JSONObject dummyCatType = new JSONObject();
+			dummyCatType.append("varType","categorical");
+			dummyCatType.append("values", "green,yellow");
+			dummy.append("type",dummyCatType);
+			
+			JSONObject dummy2 = new JSONObject();
+			dummy2.append("name","sepal_width");
+			JSONObject dummyNumType = new JSONObject();
+			dummyNumType.append("varType","numeric");
+			dummyNumType.append("min", "10");
+			dummyNumType.append("max", "100");
+			dummy2.append("type",dummyNumType);
+			
+			features.put(dummy);
+			features.put(dummy2);
+			success.append("features", features);
+			//.................................. dummy code
+			
 			return success.toString();
 		}
 

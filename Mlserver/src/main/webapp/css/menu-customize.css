@@ -137,3 +137,66 @@
 .wider {
 	width : 200px;
 }
+
+/* slider customize*/
+.slider-handle {
+  width: 15px;
+  height: 15px;
+  background-color: #aecca1;
+  background-image: -webkit-linear-gradient(top, #aecca1 0%, #7ebc7e 100%);
+  background-image: -o-linear-gradient(top, #aecca1 0%, #7ebc7e 100%);
+  background-image: linear-gradient(to bottom, #aecca1 0%, #7ebc7e 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#aecca1', endColorstr='#7ebc7e', GradientType=0);
+  filter: none;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  border: 1px solid;
+  border-color: #95a5a6;
+}
+
+.slider-track {
+  position: absolute;
+  cursor: pointer;  
+  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #f9f9f9 100%);
+  background-image: -o-linear-gradient(top, #f5f5f5 0%, #f9f9f9 100%);
+  background-image: linear-gradient(to bottom, #f5f5f5 0%, #f9f9f9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#fff9f9f9', GradientType=0);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid;
+  border-color: #c3dadb;
+  border-radius: 4px;
+}
+.slider-selection {
+  position: absolute;
+  background-color : #DFF0D8
+  background-image: -webkit-linear-gradient(top, #DFF0D8 0%, #bbd6af 100%);
+  background-image: -o-linear-gradient(top, #DFF0D8 0%, #bbd6af 100%);
+  background-image: linear-gradient(to bottom, #DFF0D8 0%, #bbd6af 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DFF0D8', endColorstr='#bbd6af', GradientType=0);
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.slider-selection.tick-slider-selection {
+  background-image: -webkit-linear-gradient(top, #89cdef 0%, #81bfde 100%);
+  background-image: -o-linear-gradient(top, #89cdef 0%, #81bfde 100%);
+  background-image: linear-gradient(to bottom, #89cdef 0%, #81bfde 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff89cdef', endColorstr='#ff81bfde', GradientType=0);
+}
+.slider-track-low,
+.slider-track-high {
+  position: absolute;
+  background: transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
