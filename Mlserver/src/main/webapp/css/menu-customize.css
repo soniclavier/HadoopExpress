@@ -113,7 +113,6 @@
 
 /* add border to the form*/
 .box-with-border {
-	margin-top:40px;
 	padding: 40px;
 	border-color: #ddd;
 	border-style:solid;
@@ -124,13 +123,19 @@
 }
 
 .box-without-border {
-	margin-top:40px;
 	padding: 40px;
 	overflow: auto;
 	max-height: 500px;
 }
+
+.no-overflow {
+	overflow:visible;
+}
 .no-padding {
 	padding: 0px;
+}
+.small-padding {
+	padding: 4px;
 }
 
 /* wider input type*/

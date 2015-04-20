@@ -62,6 +62,7 @@
 			<p>To use this Algorithm provide the path of your input data-set
 				(with headers) from local file system and provide your target class
 				name and type of the variables numeric or categorical.</p>
+			<span class="label label-info">Generate model</span>
 			<div class="box-with-border">
 				<form>
 					<div class="form-group">
@@ -125,7 +126,7 @@
 								SGD-Model</button>
 						</div>
 						<div class="col-lg-2">
-							<button type="submit" id="predict" class="btn btn-default"
+							<button type="submit" id="goToPredict" class="btn btn-default"
 								disabled>Predict</button>
 						</div>
 					</div>
@@ -152,10 +153,18 @@
 				</table>
 			</div>
 
-			<div class="box-with-border" id="predictContainer" hidden="true">
+			<div id="predictContainer" hidden="true">
+				<span class="label label-info">Predict</span>
+				<div class="box-with-border no-overflow" id="predictContent"></div>
 			</div>
-
-			<div class="row" id="footer"><br/><br/><br/></div>
+			<div class="progress" hidden="true" id="progressPredict">
+				<div class="progress-bar progress-bar-striped active"
+					role="progressbar" aria-valuenow="100" aria-valuemin="0"
+					aria-valuemax="100" style="width: 100%">please wait</div>
+			</div>
+			<div class="row" id="footer">
+				<br /> <br /> <br />
+			</div>
 		</div>
 		<!-- /.container -->
 	</div>
@@ -191,10 +200,13 @@
 			$('#error').hide();
 			$("#result").hide();
 			$("#resultStats").hide();
-
+		}
+		
+		function prePredict() {
+			$('#progressPredict').show();
 		}
 
-		$('#predict').click(function(e) {
+		$('#goToPredict').click(function(e) {
 			e.preventDefault();
 			$('#predictContainer').show();
 			scrollToElement('#predictContainer');
@@ -226,14 +238,14 @@
 						$('#error').html(data.error[0])
 						$('#error').show();
 					} else {
-						$('#predict').prop('disabled', false);
+						$('#goToPredict').prop('disabled', false);
 						$('#success').slideDown();
 						$("#result").show();
 
 						//build stats div
-						populateStats(data);
+						//populateStats(data);
 						//Buid the confusion matrix
-						populateConfusionMatrix(data);
+						//populateConfusionMatrix(data);
 						//build the features div
 						populateFeatures(data);
 
@@ -284,42 +296,107 @@
 		//* function to populate the features div *//
 		function populateFeatures(data) {
 			var content = '';
+			var names = []
 			for (i = 0; i < data.features[0].length; i++) {
-				content += '<div class=\"row\">';
+				content += '<div class=\"row\" id=\"input_row\">';
 				var name = data.features[0][i].name;
-				content += '<div class=\"col-lg-2\">' + name + '</div>';
+				names.push(name);
+				content += '<div class=\"col-lg-2\" id="key"><b>' + name + '</b></div>';
 				var type = data.features[0][i].type[0].varType;
 				if (type == 'numeric') {
 					var min = data.features[0][i].type[0].min;
 					var max = data.features[0][i].type[0].max;
-					content += '<div class=\"col-lg-4\">'
-					content += '<input id=\"'+name+'\" data-slider-id=\''+name+'\Slider\' type=\"text\" data-slider-min=\"'+min+'\" data-slider-max=\"'+max+'\" data-slider-step=\"1\"'
-					content += 'data-slider-value=\"'+min+'\"'
+					content += '<div class=\"col-lg-3\">'
+					content += '<input id=\"'
+							+ String(name).replace(/\s+/g, '')
+							+ '\" data-slider-id=\'' + name
+							+ '\Slider\' type=\"text\" data-slider-min=\"'
+							+ min + '\" data-slider-max=\"' + max
+							+ '\" data-slider-step=\"1\"'
+					content += 'data-slider-value=\"' + min + '\"'
 					content += ' data-slider-handle=\"square\"'
 					content += '/>'
 					content += '</div>'
-					$('#predictContainer').html(content);
-
-					$('#' + name).slider({
-						tooltip : 'always',
-						formatter : function(value) {
-							return value;
-						}
-					});
+					content += '<div class=\"col-lg-2\" id=\"value\"><span id=\"'
+							+ String(name).replace(/\s+/g, '')
+							+ 'SliderVal\" class="well small-padding">10</span></div>'
 				}
 				if (type == 'categorical') {
 					var values = String(data.features[0][i].type[0].values)
 							.split(",");
+					content += '<div class=\"col-lg-3\ no-padding">';
+					content += '<select class=\"form-control\" id="value">';
 					for (k = 0; k < values.length; k++) {
-						//
+						content += '<option value=\"'+values[k]+'\">'
+								+ values[k] + '</option>'
 					}
+					content += '</select><br/></div>'
 				}
 				content += '</div>';
 			}
+			content += '<br/><div class="row">';
+			content += '<div class="col-lg-3">';
+			content += '<button type="predict" id="predict" class="btn btn-default">Predict</button>';
+			content += '</div>';
+			content += '</div>';
 
-			//alert(content);
+			console.log(content);
 
-			//<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>	
+			$('#predictContent').html(content);
+
+			for (i = 0; i < data.features[0].length; i++) {
+				var name = data.features[0][i].name;
+				var type = data.features[0][i].type[0].varType;
+				if (type == 'numeric') {
+					$('#' + String(name).replace(/\s+/g, '')).slider(
+							{
+								formatter : function(value) {
+									$(
+											'#'
+													+ String(name).replace(
+															/\s+/g, '')
+													+ 'SliderVal').text(value);
+									return value;
+								}
+							});
+				}
+				if (type == 'categorical') {
+				}
+			}
+			
+			$("#predict").click(function() {
+				var map = {}
+				$("#predictContent #input_row").each(function() {
+		           var key = $(this).find("#key").text();
+		           var value = $(this).find("#value");
+		           if(value.prop('type') == 'select-one') {
+		        		//alert(key+" "+value.val())
+		        		map[key] = value.val();
+		           } else {
+		        	   //alert(key+ " "+value.children("span").html())
+		        	   map[key] = value.children("span").html()
+		           }
+		        });
+				
+				$.ajax({
+					type : "POST",
+					contentType : "application/x-www-form-urlencoded",
+					data : map,
+					async : true,
+					url : "/rest/sgd/predict",
+					beforeSend : prePredict,
+					success : function(data, textStatus, jqXHR) {
+							$('#progressPredict').hide();
+						},
+					error : function(xhr, ajaxOptions, thrownError) {
+						alert(xhr.status);
+						alert(thrownError);
+						alert(xhr.responseText);
+					}
+				});
+				
+			});
+			
 
 		}
 	</script>
