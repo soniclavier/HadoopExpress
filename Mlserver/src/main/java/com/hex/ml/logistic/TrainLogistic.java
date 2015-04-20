@@ -17,6 +17,7 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Closeables;
 import com.google.common.io.Resources;
+
 import org.apache.commons.cli2.CommandLine;
 import org.apache.commons.cli2.Group;
 import org.apache.commons.cli2.Option;
@@ -48,7 +49,11 @@ public final class TrainLogistic {
   }
 
   public static void main(String[] args) throws Exception {
-    mainToOutput(args, new PrintWriter(new OutputStreamWriter(System.out, Charsets.UTF_8), true));
+    //mainToOutput(args, new PrintWriter(new OutputStreamWriter(System.out, Charsets.UTF_8), true));
+  }
+  
+  public static void train(String[] args) throws Exception {
+	  mainToOutput(args, new PrintWriter(new OutputStreamWriter(System.out, Charsets.UTF_8), true));
   }
   
  
@@ -95,7 +100,8 @@ public final class TrainLogistic {
 
             line = in.readLine();
           }
-        } finally {
+        }
+        finally {
           Closeables.close(in, true);
         }
       }

@@ -19,17 +19,34 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.google.common.base.Charsets;
+import com.hex.ml.utility.Configs;
 import com.hex.ml.utility.HEMLUtility;
 
 public class SGDMLP {
-	private static Path trainingData = new Path(
-			"/user/hue/irisdataTrain/train.csv");
-	private static Path testData = new Path("/user/hue/irisdataTest/test.csv");
-	private static String traincsv = "/tmp/irisdataTrain/train.csv";
-	private static String testcsv = "/tmp/irisdataTest/test.csv";
-	private static String modelfile = "/tmp/IrisDataModel/sgdmodel.bin";
+	
+
+	private String hdfsWorkingDir;
+	private String localWorkingDir;
+	private static Path trainingData;
+	private static Path testData;
+	private static String traincsv;
+	private static String testcsv;
+	private static String modelfile;
 	private static JSONObject sgdResult = null;
 
+	
+	public SGDMLP() {
+		Configs conf = Configs.getInstance();
+		hdfsWorkingDir = conf.getProperty("hdfs_workingdir");
+		localWorkingDir = conf.getProperty("local_workingdir");
+		
+		trainingData = new Path(hdfsWorkingDir+"train.csv");
+		testData = new Path(hdfsWorkingDir+"test.csv");
+		traincsv = localWorkingDir+"train.csv";
+		testcsv = localWorkingDir+"test.csv";
+		
+		modelfile = localWorkingDir+"sgdmode.bin";
+	}
 	public String runSGD(String inputLocation, String targetClass,
 			String varType,String header) throws JSONException {
 
@@ -39,7 +56,7 @@ public class SGDMLP {
 			return error.toString();
 		} else {
 			try {
-				int ret = dataPrepration(inputLocation);
+				int ret = dataPrepration(inputLocation,header);
 				if (ret == -1) {
 					JSONObject error = new JSONObject();
 					error.append("error", "Data preparation failed");
@@ -50,6 +67,10 @@ public class SGDMLP {
 
 			} catch (Exception e) {
 				e.printStackTrace();
+				JSONObject error = new JSONObject();
+				error.append("error","Training failed");
+				return error.toString();
+				
 			}
 			JSONObject success = new JSONObject();
 			success.append("success", sgdResult);
@@ -83,7 +104,7 @@ public class SGDMLP {
 
 	}
 
-	public int dataPrepration(String fileLocation) throws Exception {
+	public int dataPrepration(String fileLocation,String header) throws Exception {
 		File f = new File(fileLocation);
 		if (!f.exists()) {
 			return -1; // file does not exist
@@ -97,12 +118,13 @@ public class SGDMLP {
 		List<String> train = raw.subList(0, 99);
 		List<String> test = raw.subList(100, 149);
 		checkAndCreatePath();
-		writeCSV(train, trainingData);
-		writeCSV(test, testData);
+		System.out.println(header);
+		writeCSV(train, trainingData,header);
+		writeCSV(test, testData,header);
 		return 0; // success
 	}
 
-	public void writeCSV(List<String> list, Path p) throws IOException {
+	public void writeCSV(List<String> list, Path p,String header) throws IOException {
 		FileSystem fs = FileSystem.get(HEMLUtility.getConfiguration());
 		if (fs.exists(p)) {
 			fs.delete(p, true);
@@ -110,8 +132,7 @@ public class SGDMLP {
 		OutputStream os = fs.create(p);
 		BufferedWriter br = new BufferedWriter(new OutputStreamWriter(os,
 				"UTF-8"));
-		br.write("Sepal_length" + "," + "Sepal_width" + "," + "Petal_length"
-				+ "," + "Petal_width" + "," + "Species" + "\n");
+		br.write(header+"\n");
 		for (int i = 0; i < list.size(); i++) {
 			br.write(list.get(i) + "\n");
 		}
@@ -123,13 +144,13 @@ public class SGDMLP {
 	public JSONObject createSGDModel(String trainData, String testData,String targetClass,String varType,String header)
 			throws Exception {
 
-		String outputLoc = "/tmp/IrisDataModel/sgdmodel.bin";
+		String outputLoc = modelfile;
 		String numCategories = "3";
 		String[] predictors = header.split(",");
 		String numPasses = "90";
 		String rate = "300";
 		String[] trainInput = formTrainInputArr(trainData,outputLoc,targetClass,numCategories,varType,predictors,numPasses,rate);
-		TrainLogistic.main(trainInput);
+		TrainLogistic.train(trainInput);		
 		System.out.println("training the model");
 		
 		
@@ -204,9 +225,6 @@ public class SGDMLP {
 	private void checkLocalPath() {
 		File trainFile = new File(traincsv);
 		File testFile = new File(testcsv);
-		File tmpDir1 = new File("/tmp/irisdataTrain");
-		File tmpDir2 = new File("/tmp/irisdataTest");
-		File modelDir = new File("/tmp/IrisDataModel");
 		File modelFile = new File(modelfile);
 
 		if (modelFile.exists()) {
@@ -221,18 +239,6 @@ public class SGDMLP {
 			testFile.delete();
 		}
 
-		if (tmpDir1.exists()) {
-			tmpDir1.delete();
-			tmpDir1.mkdir();
-		}
-
-		if (tmpDir2.exists()) {
-			tmpDir2.delete();
-			tmpDir2.mkdir();
-		}
-
-		if (!modelDir.exists())
-			modelDir.mkdir();
 		try {
 			FileSystem fs = FileSystem.get(HEMLUtility.getConfiguration());
 			fs.copyToLocalFile(trainingData, new Path(traincsv));

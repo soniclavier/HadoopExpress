@@ -38,7 +38,7 @@ public class Main {
 		restContext.setContextPath("/rest");
 		ServletHolder jerseyServlet = new ServletHolder(new ServletContainer());
 		jerseyServlet.setInitOrder(0);
-		jerseyServlet.setInitParameter("jersey.config.server.provider.packages","com.hex.ml.logistic");
+		jerseyServlet.setInitParameter("jersey.config.server.provider.packages","com.hex.ml.logistic,com.hex.ml.utility");
 		restContext.addServlet(jerseyServlet, "/*");
 
 		HandlerList handlers = new HandlerList();

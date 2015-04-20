@@ -1,59 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>HEX-ML</title>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>HEX-ML</title>
 
-    <!-- Bootstrap -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/css/navmenu-reveal.css" rel="stylesheet">
-    <link href="/css/menu-customize.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/jasny-bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="/css/navmenu-reveal.css" rel="stylesheet">
+<link href="/css/menu-customize.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body>
-  	<div class="navmenu navmenu-grey navmenu-fixed-left">
-      <a class="navmenu-brand" href="#">HexML</a>
-      <ul class="nav navmenu-nav">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Overview</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">HEX-Modeler<b class="caret"></b></a>
-          <ul class="dropdown-menu navmenu-nav">
-            <li><a href="#">Naive Bayes</a></li>
-            <li><a href="/pages/sgd.html">Logistic Regression</a></li>
-            <li><a href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  	<div class="canvas">
-      <div class="navbar navbar-default navbar-fixed-top">
-        <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-recalc="false" data-target=".navmenu" data-canvas=".canvas">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
+</head>
+<body>
+	<div class="navmenu navmenu-grey navmenu-fixed-left">
+		<a class="navmenu-brand" href="#">HexML</a>
+		<ul class="nav navmenu-nav">
+			<li><a href="#">Home</a></li>
+			<li><a href="#">Overview</a></li>
+			<li class="dropdown"><a href="#" class="dropdown-toggle"
+				data-toggle="dropdown">HEX-Modeler<b class="caret"></b></a>
+				<ul class="dropdown-menu navmenu-nav">
+					<li><a href="#">Naive Bayes</a></li>
+					<li><a href="/pages/sgd.html">Logistic Regression</a></li>
+					<li><a href="#">Something else here</a></li>
+				</ul></li>
+		</ul>
+	</div>
+	<div class="canvas">
+		<div class="navbar navbar-default navbar-fixed-top">
+			<button type="button" class="navbar-toggle" data-toggle="offcanvas"
+				data-recalc="false" data-target=".navmenu" data-canvas=".canvas">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+		</div>
 
-      <div class="container">
-        <div class="page-header">
-          <h1>HEX- Machine Learning</h1>
-        </div>
-        <p>Hadoop Express machine learning system will give you the power of hadoop platform with spark and mahout api's combined.</p>
-      </div><!-- /.container -->
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jasny-bootstrap.min.js"></script>
-  </body>
+		<div class="container">
+			<div class="page-header">
+				<h1>HEX- Machine Learning</h1>
+			</div>
+			<p>Hadoop Express machine learning system will give you the power
+				of hadoop platform with spark and mahout api's combined.</p>
+			<br /> <br /> <br /> <br /> <br /> <span
+				class="label label-info">Configurations</span>
+			<div class="box-with-border" id="configs"></div>
+			<div class="alert alert-success" role="alert" id="config_success"
+				hidden="true">Configuration updated successfully</div>
+		</div>
+		<!-- /.container -->
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jasny-bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			$.ajax({
+				type : "GET",
+				contentType : "application/json",
+				async : true,
+				url : "/rest/config/list",
+				success : function(data, textStatus,
+						jqXHR) 
+						{
+							var list = data.configs;
+							var cont = ''
+							for (i = 0; i < list.length; i++) {
+								//alert(list[i]["key"]+" "+list[i]["value"])
+								cont += '<div class=\"row\" id=\"input_row\">'
+								cont += '<div class=\"col-lg-2\"><label id="key">'+ list[i]["key"]+ '</label></div>'
+								cont += '<div class=\"col-lg-6\"><input type="text" class="form-control" id="value" value="'+list[i]["value"]+'"></div>'
+								cont += '</div><br/>'
+							}
+							
+							cont += '<div class=\"row\">'
+							cont += '<button type="submit" id="updateConf" class="btn btn-default">Update</button>';
+							cont += '</div>'
+							$("#configs").html(cont);
+										},
+				error : function(xhr, ajaxOptions,thrownError)
+						{
+							alert(xhr.status);
+							alert(thrownError);
+							alert(xhr.responseText);
+						}
+				});
+		});
+		
+		$(document.body).on('click', '#updateConf' ,function(){
+			var map = {}
+			$("#configs #input_row").each(function() {
+	           var key = $(this).find("#key").text();
+	           var value = $(this).find("#value").val();
+	           map[key] = value;
+	           //alert(key+" "+value)
+	        });
+			$.ajax({
+				type : "POST",
+				contentType : "application/x-www-form-urlencoded",
+				data : map,
+				async : true,
+				url : "/rest/config/update",
+				success : function(data, textStatus, jqXHR) {
+						$("#config_success").show();
+					},
+				error : function(xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+					alert(xhr.responseText);
+				}
+			});
+		});
+	</script>
+</body>
 </html>
