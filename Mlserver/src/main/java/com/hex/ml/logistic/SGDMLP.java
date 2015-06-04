@@ -7,7 +7,9 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +22,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 import com.google.common.base.Charsets;
 import com.hex.ml.utility.Configs;
+import com.hex.ml.utility.DataJson;
 import com.hex.ml.utility.HEMLUtility;
 
 public class SGDMLP {
@@ -47,6 +50,16 @@ public class SGDMLP {
 		
 		modelfile = localWorkingDir+"sgdmode.bin";
 	}
+	
+	public static void main(String[] args) {
+		SGDMLP mpl = new SGDMLP();
+		try {
+			mpl.generateFeatures("path","Sepal_length,Sepal_width,Petal_length,Petal_width,Species","Numeric,Numeric,Numeric,Numeric");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public String runSGD(String inputLocation, String targetClass,
 			String varType,String header) throws JSONException {
 
@@ -55,7 +68,7 @@ public class SGDMLP {
 			error.append("error", "Input Location not provided");
 			return error.toString();
 		} else {
-			try {
+			/*try {
 				int ret = dataPrepration(inputLocation,header);
 				if (ret == -1) {
 					JSONObject error = new JSONObject();
@@ -71,32 +84,13 @@ public class SGDMLP {
 				error.append("error","Training failed");
 				return error.toString();
 				
-			}
+			}*/
 			JSONObject success = new JSONObject();
 			success.append("success", sgdResult);
 			
-			//dummy code ..................
-			JSONArray features = new JSONArray();
 			
-			
-			JSONObject dummy = new JSONObject();
-			dummy.append("name","sepal_color");
-			JSONObject dummyCatType = new JSONObject();
-			dummyCatType.append("varType","categorical");
-			dummyCatType.append("values", "green,yellow");
-			dummy.append("type",dummyCatType);
-			
-			JSONObject dummy2 = new JSONObject();
-			dummy2.append("name","sepal_width");
-			JSONObject dummyNumType = new JSONObject();
-			dummyNumType.append("varType","numeric");
-			dummyNumType.append("min", "10");
-			dummyNumType.append("max", "100");
-			dummy2.append("type",dummyNumType);
-			
-			features.put(dummy);
-			features.put(dummy2);
-			success.append("features", features);
+			JSONArray features = generateFeatures("path",header,"Numeric,Numeric,Numeric,Numeric");
+			success.put("features", features);
 			//.................................. dummy code
 			
 			return success.toString();
@@ -249,5 +243,51 @@ public class SGDMLP {
 		}
 
 	}
+	
+	/*
+	 * Generates the features from the data set. This is used by the predict to populate the max,min for numeric and values for categorical types.
+	 */
+	
+	public JSONArray generateFeatures(String path,String columns,String types) throws JSONException {
+		
+		System.out.println(columns);
+		//String checked = columns;
+		//String[] selected= checked.split(",");;
+		//get array of column names and create a hash map of the original column list.
+		
+		String [] columnArr = columns.split(",");
+		String[] typeArr = types.split(",");
+		
+		String[] originalColumnName = new String[columnArr.length-1];
+		for(int i=0;i<columnArr.length-1;i++) {
+			originalColumnName[i]= columnArr[i];
+		}
+		
+		HashMap<Integer, String> columnNames = new HashMap<Integer, String>();
+		for(int i=0;i<originalColumnName.length;i++){
+			columnNames.put(i,typeArr[i]);
+		}
+		
+		DataJson dataJson = new DataJson();
+		return dataJson.getFeatureJSONArr(columnNames, "C:/vishnu/New folder/HadoopExpress/Mlserver/res/iris.data.txt", originalColumnName);
+		/*JSONObject dummy = new JSONObject();
+		dummy.append("name","sepal_color");
+		JSONObject dummyCatType = new JSONObject();
+		dummyCatType.append("varType","categorical");
+		dummyCatType.append("values", "green,yellow");
+		dummy.append("type",dummyCatType);
+		
+		JSONObject dummy2 = new JSONObject();
+		dummy2.append("name","sepal_width");
+		JSONObject dummyNumType = new JSONObject();
+		dummyNumType.append("varType","numeric");
+		dummyNumType.append("min", "10");
+		dummyNumType.append("max", "100");
+		dummy2.append("type",dummyNumType);
+		
+		features.put(dummy);
+		features.put(dummy2);*/
+	}
+
 
 }

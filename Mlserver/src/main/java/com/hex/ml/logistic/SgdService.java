@@ -27,8 +27,8 @@ public class SgdService {
 			resultJson=sgd.runSGD(inputLoc,targetClass,varType,header);
 			
 			
-			/*  dummy code.. delete
-			 JSONArray features = new JSONArray();
+			//  dummy code.. delete
+			/* JSONArray features = new JSONArray();
 			
 			
 			JSONObject dummy = new JSONObject();
@@ -52,6 +52,7 @@ public class SgdService {
 			result.append("success","dummy");
 			result.append("features", features);
 			resultJson = result.toString();*/
+			
 			System.out.println(resultJson);
 		} catch (Exception e) {
 			Response.serverError();

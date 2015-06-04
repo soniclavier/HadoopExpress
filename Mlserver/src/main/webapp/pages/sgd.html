@@ -141,7 +141,7 @@
 			<div class="progress" hidden="true" id="progress">
 				<div class="progress-bar progress-bar-striped active"
 					role="progressbar" aria-valuenow="100" aria-valuemin="0"
-					aria-valuemax="100" style="width: 100%">please wait</div>
+					aria-kmax="100" style="width: 100%">please wait</div>
 			</div>
 			<br />
 
@@ -236,16 +236,16 @@
 
 					if (typeof (data.success) == "undefined") {
 						$('#error').html(data.error[0])
-						$('#error').show();
+						$('#error').show();	
 					} else {
 						$('#goToPredict').prop('disabled', false);
 						$('#success').slideDown();
 						$("#result").show();
 
 						//build stats div
-						populateStats(data);
+						//populateStats(data);
 						//Buid the confusion matrix
-						populateConfusionMatrix(data);
+						//populateConfusionMatrix(data);
 						//build the features div
 						populateFeatures(data);
 
@@ -295,17 +295,19 @@
 
 		//* function to populate the features div *//
 		function populateFeatures(data) {
+			console.log(data);
 			var content = '';
 			var names = []
-			for (i = 0; i < data.features[0].length; i++) {
+			for (i = 0; i < data.features.length; i++) {
 				content += '<div class=\"row\" id=\"input_row\">';
-				var name = data.features[0][i].name;
+				var name = data.features[i].name;
 				names.push(name);
+				console.log(name)
 				content += '<div class=\"col-lg-2\" id="key"><b>' + name + '</b></div>';
-				var type = data.features[0][i].type[0].varType;
+				var type = data.features[i].type.varType;
 				if (type == 'numeric') {
-					var min = data.features[0][i].type[0].min;
-					var max = data.features[0][i].type[0].max;
+					var min = data.features[i].type.min;
+					var max = data.features[i].type.max;
 					content += '<div class=\"col-lg-3\">'
 					content += '<input id=\"'
 							+ String(name).replace(/\s+/g, '')
@@ -319,10 +321,10 @@
 					content += '</div>'
 					content += '<div class=\"col-lg-2\" id=\"value\"><span id=\"'
 							+ String(name).replace(/\s+/g, '')
-							+ 'SliderVal\" class="well small-padding">10</span></div>'
+							+ 'SliderVal\" class="well small-padding">10</span></div><br/>'
 				}
 				if (type == 'categorical') {
-					var values = String(data.features[0][i].type[0].values)
+					var values = String(data.features[i].type.values)
 							.split(",");
 					content += '<div class=\"col-lg-3\ no-padding">';
 					content += '<select class=\"form-control\" id="value">';
@@ -344,21 +346,19 @@
 
 			$('#predictContent').html(content);
 
-			for (i = 0; i < data.features[0].length; i++) {
-				var name = data.features[0][i].name;
-				var type = data.features[0][i].type[0].varType;
+			for (i = 0; i < data.features.length; i++) {
+				var name = data.features[i].name;
+				var type = data.features[i].type.varType;
 				if (type == 'numeric') {
-					$('#' + String(name).replace(/\s+/g, '')).slider(
-							{
-								formatter : function(value) {
-									$(
-											'#'
-													+ String(name).replace(
-															/\s+/g, '')
-													+ 'SliderVal').text(value);
-									return value;
-								}
-							});
+					$('#' + String(name).replace(/\s+/g, '')).slider();
+					$('#' + String(name).replace(/\s+/g, '')).on("slide",function(slideEvt){
+						$(
+								'#'
+										+ String(name).replace(
+												/\s+/g, '')
+										+ 'SliderVal').text(slideEvt.value);
+					});
+							
 				}
 				if (type == 'categorical') {
 				}
