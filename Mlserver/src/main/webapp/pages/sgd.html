@@ -74,6 +74,11 @@
 								<input type="text" class="form-control" id="dataset"
 									placeholder="Data set location in local file system.">
 							</div>
+							<div class="header_included">
+    							<label>
+      								<input type="checkbox" id="header_included"  onclick="headerCheck();"> Input file contains header
+    							</label>
+  							</div>
 							<!-- 
 							<div class="col-lg-4">								
 								<span class="btn btn-default btn-file">
@@ -96,7 +101,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group box-without-border" id="inputVarTypeForm" hidden="true">												
+					</div>
+					<div class="form-group" hidden="true" id="targetClassForm">
 						<div class="row">
 							<label for="targetClass">Target class name</label>
 						</div>
@@ -107,7 +114,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" id="varTypeForm" hidden="true">
 						<div class="row">
 							<label for="varType">Type of variable</label>
 						</div>
@@ -121,8 +128,12 @@
 						</div>
 					</div>
 					<div class="row">
+						
 						<div class="col-lg-2">
-							<button type="submit" id="generate" class="btn btn-default">Generate
+							<button type="submit" id="loadFile" class="btn btn-default">Load input</button>
+						</div>						
+						<div class="col-lg-3">
+							<button type="submit" id="generate" class="btn btn-default" disabled>Generate
 								SGD-Model</button>
 						</div>
 						<div class="col-lg-2">
@@ -205,6 +216,43 @@
 		function prePredict() {
 			$('#progressPredict').show();
 		}
+		
+		function loadHeader() {
+			var inputLoc = $('#dataset').val();
+			$.ajax({
+				type : "GET",
+				contentType : "application/json",
+				data : {
+					'inputLoc' : inputLoc
+				},
+				async : true,
+				url : "/rest/sgd/loadHeader",
+				beforeSend : preGenerate,
+				success : function(data, textStatus, jqXHR) {
+					$('#progress').hide();
+					var header = data.header
+					$('#header').val(header)
+					builInputVarForm(header)
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+					alert(xhr.responseText);
+				}
+			});	
+		}
+		function headerCheck() {
+			if(document.getElementById('header_included').checked) {
+				var inputLoc = $('#dataset').val();
+				if (inputLoc != '') {
+					loadHeader();	
+				}
+				
+				 $('#header').attr('disabled', 'disabled');
+			}else {
+				$('#header').removeAttr('disabled');
+			}
+		}
 
 		$('#goToPredict').click(function(e) {
 			e.preventDefault();
@@ -212,7 +260,72 @@
 			scrollToElement('#predictContainer');
 
 		});
-
+		
+		function builInputVarForm(header) {
+			$("#inputVarTypeForm").show();
+			var headers = header.split(',')
+			var content = '<div class=\"row\">'
+			content += '<label for=\"headers\">Choose type of each feature</label></div>'				
+			for (i =0;i<headers.length;i++) {
+				var header = headers[i]
+				content += '<div class=\"row\">'
+				content += '<div class=\"col-lg-3\"><label for=\"'+header+'\"><pre>'+header+'</pre></label></div>'
+				content += '<div class=\"col-lg-4\">'							
+				content += '<select class=\"form-control\" id=\"'+header+'\">'
+				content += '<option value=\"numeric\">Numerical</option>'
+				content += '<option value=\"categorical\">Categorical</option>'
+				content += '</select>'
+				content += '</div>'
+				content += '</div>'
+			}
+			console.log(content)
+			$("#inputVarTypeForm").html(content);
+		}
+		$('#dataset').blur(function(e){
+			var headerIncluded = document.getElementById('header_included').checked;
+			if (headerIncluded) {
+				loadHeader();
+			}
+		});
+		
+		$('#header').blur(function(e){
+			var header = $('#header').val();
+			builInputVarForm(header)
+		});
+		
+		$('#loadFile').click(function(e) {
+			e.preventDefault();
+			$('#inputVarTypeForm').each(function(i,e) {
+				
+			});
+			
+		});
+		
+		$('#doneHeader').click(function(e) {
+			var inputLoc = $('#dataset').val();
+			var headerIncluded = document.getElementById('header_included').checked;
+			$.ajax({
+				type : "GET",
+				contentType : "application/json",
+				data : {
+					'inputLoc' : inputLoc,
+					'headerIncluded' : headerIncluded
+				},
+				async : true,
+				url : "/rest/sgd/loadFile",
+				beforeSend : preGenerate,
+				success : function(data, textStatus, jqXHR) {
+					$('#progress').hide();						
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+					alert(xhr.responseText);
+				}
+			});
+			
+		});
+		
 		$('#generate').click(function(e) {
 			e.preventDefault();
 			var inputLoc = $('#dataset').val();
@@ -243,9 +356,9 @@
 						$("#result").show();
 
 						//build stats div
-						//populateStats(data);
+						populateStats(data);
 						//Buid the confusion matrix
-						//populateConfusionMatrix(data);
+						populateConfusionMatrix(data);
 						//build the features div
 						populateFeatures(data);
 
@@ -314,14 +427,15 @@
 							+ '\" data-slider-id=\'' + name
 							+ '\Slider\' type=\"text\" data-slider-min=\"'
 							+ min + '\" data-slider-max=\"' + max
-							+ '\" data-slider-step=\"1\"'
+							+ '\" data-slider-step=\"0.1\"'
 					content += 'data-slider-value=\"' + min + '\"'
 					content += ' data-slider-handle=\"square\"'
+					content += ' data-slider-tooltip=\"hide\"'
 					content += '/>'
 					content += '</div>'
 					content += '<div class=\"col-lg-2\" id=\"value\"><span id=\"'
 							+ String(name).replace(/\s+/g, '')
-							+ 'SliderVal\" class="well small-padding">10</span></div><br/>'
+							+ 'SliderVal\" class="well small-padding">'+min+'</span></div><br/>'
 				}
 				if (type == 'categorical') {
 					var values = String(data.features[i].type.values)
@@ -352,17 +466,21 @@
 				if (type == 'numeric') {
 					$('#' + String(name).replace(/\s+/g, '')).slider();
 					$('#' + String(name).replace(/\s+/g, '')).on("slide",function(slideEvt){
-						$(
-								'#'
-										+ String(name).replace(
-												/\s+/g, '')
-										+ 'SliderVal').text(slideEvt.value);
+						$('#'+ String(slideEvt.target.id).replace(/\s+/g, '')+'SliderVal').text(slideEvt.value);
 					});
+					$('#' + String(name).replace(/\s+/g, '')+'SliderVal').bind('click', function() {
+				        $(this).attr('contentEditable', true);
+				    }).blur(
+				        function() {
+				            $(this).attr('contentEditable', false);
+				        });
 							
 				}
 				if (type == 'categorical') {
 				}
 			}
+			
+			
 			
 			$("#predict").click(function() {
 				var map = {}

@@ -68,7 +68,7 @@ public class SGDMLP {
 			error.append("error", "Input Location not provided");
 			return error.toString();
 		} else {
-			/*try {
+			try {
 				int ret = dataPrepration(inputLocation,header);
 				if (ret == -1) {
 					JSONObject error = new JSONObject();
@@ -84,12 +84,12 @@ public class SGDMLP {
 				error.append("error","Training failed");
 				return error.toString();
 				
-			}*/
+			}
 			JSONObject success = new JSONObject();
 			success.append("success", sgdResult);
 			
 			
-			JSONArray features = generateFeatures("path",header,"Numeric,Numeric,Numeric,Numeric");
+			JSONArray features = generateFeatures(inputLocation,header,"Numeric,Numeric,Numeric,Numeric");
 			success.put("features", features);
 			//.................................. dummy code
 			
@@ -269,7 +269,7 @@ public class SGDMLP {
 		}
 		
 		DataJson dataJson = new DataJson();
-		return dataJson.getFeatureJSONArr(columnNames, "C:/vishnu/New folder/HadoopExpress/Mlserver/res/iris.data.txt", originalColumnName);
+		return dataJson.getFeatureJSONArr(columnNames, path, originalColumnName);
 		/*JSONObject dummy = new JSONObject();
 		dummy.append("name","sepal_color");
 		JSONObject dummyCatType = new JSONObject();

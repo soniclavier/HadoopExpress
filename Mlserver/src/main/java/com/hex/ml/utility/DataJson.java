@@ -243,9 +243,7 @@ public class DataJson {
 						continue;
 					String[] columns = line.split(cvsSplitBy);
 					
-					System.out.println();
 					for(int i=0;i<columns.length;i++){
-						System.out.print(columns[i]+" ");
 						if(columnAndTypes.get(i)!=null){
 							if(columnAndTypes.get(i).equals("Numeric")){
 								//put the value in the hash map for each column separately.
@@ -325,5 +323,10 @@ public class DataJson {
 		return features;
 		
 	} 
+	
+	public static String getHeaders(String file) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		return br.readLine();
+	}
 
 }
