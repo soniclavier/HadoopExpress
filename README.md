@@ -1,5 +1,7 @@
 # HadoopExpress
 
+**Old** - Code for hadoopexpress.in**(not in use right now)**, online tool for building and running ML models.
+
 ML Server dev setup steps :
 
 a) checkout
